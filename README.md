@@ -17,7 +17,7 @@ Esta é uma API para gerenciar dados de uma concessionária, incluindo usuários
 1. Clone o repositório:
 
    ```bash
-   git clone https://github.com/usuario/API-concessionaria.git
+   git clone https://github.com/welyson1/API-EXPRESS-CONCESSIONARIA.git
    ```
 
 2. Instale as dependências:
