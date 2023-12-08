@@ -1,5 +1,6 @@
 // controllers/carroController.js
 // Importa o serviço responsável pelas operações relacionadas a carros
+const carroService = require('../services/carroService');
 
 // Função assíncrona para cadastrar um novo carro
 const cadastrarCarro = async (req, res) => {
