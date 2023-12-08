@@ -49,8 +49,6 @@ Esta é uma API para gerenciar dados de uma concessionária, incluindo usuários
    http://localhost:3000/install
    ```
 
-A API estará disponível em `http://localhost:3000`.
-
 6. Veja a documentação
 
 - `GET /docs`: Documentação de todas as rotas
