@@ -1,4 +1,6 @@
 // controllers/marcaController.js
+// Importa o serviço responsável pelas operações relacionadas a marcas
+const marcaService = require('../services/marcaService');
 
 // Função assíncrona para cadastrar uma nova marca
 const cadastrarMarca = async (req, res) => {
