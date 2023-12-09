@@ -157,5 +157,33 @@ router.put('/atualizar/:id', vendaController.atualizarVenda);
  */
 router.delete('/excluir/:id', vendaController.excluirVenda);
 
+/**
+ * @swagger
+ * /vendas/listarPorIntervaloDeDatas:
+ *   get:
+ *     summary: Listar vendas por intervalo de datas
+ *     tags: [Venda]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: dataInicio
+ *         description: Data de início do intervalo (formato YYYY-MM-DD)
+ *         required: true
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: dataFim
+ *         description: Data de fim do intervalo (formato YYYY-MM-DD)
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Lista de vendas dentro do intervalo de datas retornada com sucesso
+ *       400:
+ *         description: Erro ao listar vendas por intervalo de datas
+ */
+router.get('/listarPorIntervaloDeDatas', vendaController.listarVendasPorIntervaloDeDatas);
 
 module.exports = router;

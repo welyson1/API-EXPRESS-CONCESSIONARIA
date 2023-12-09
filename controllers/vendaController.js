@@ -90,6 +90,27 @@ const atualizarVenda = async (req, res) => {
   }
 };
 
+// Função assíncrona para listar vendas por intervalo de datas
+const listarVendasPorIntervaloDeDatas = async (req, res) => {
+  try {
+    // Extrai os parâmetros de data de início e fim da consulta
+    const { dataInicio, dataFim } = req.query;
+
+    // Verifica se os parâmetros de data de início e fim foram fornecidos
+    if (!dataInicio || !dataFim) {
+      throw new Error('Parâmetros de data de início e fim são obrigatórios.');
+    }
+
+    // Chama o serviço para listar as vendas dentro do intervalo de datas fornecido
+    const vendas = await vendaService.listarVendasPorIntervaloDeDatas(dataInicio, dataFim);
+
+    // Retorna a lista de vendas como resposta
+    res.json(vendas);
+  } catch (error) {
+    // Em caso de erro, retorna a mensagem de erro com status 400 (Bad Request)
+    res.status(400).json({ error: error.message });
+  }
+};
 
 // Exporta as funções do controlador para uso em outros módulos
 module.exports = {
@@ -98,4 +119,5 @@ module.exports = {
   obterVendaPorId,
   excluirVenda,
   atualizarVenda,
+  listarVendasPorIntervaloDeDatas,
 };
