@@ -8,6 +8,13 @@ const router = express.Router();
 
 /**
  * @swagger
+ * tags:
+ *   name: Usuários
+ *   description: Operações relacionadas aos usuarios
+ */
+
+/**
+ * @swagger
  * /usuarios/login:
  *   post:
  *     summary: Autentica um usuário e fornece um token JWT
@@ -84,20 +91,6 @@ router.use(authenticateJWT);
 
 /**
  * @swagger
- * /usuarios/perfil:
- *   get:
- *     summary: Obtém o perfil do usuário autenticado
- *     tags: [Usuários]
- *     responses:
- *       200:
- *         description: Perfil do usuário recuperado com sucesso
- */
-router.get('/perfil', (req, res) => {
-  res.json({ mensagem: 'Esta é uma rota protegida!' });
-});
-
-/**
- * @swagger
  * /usuarios/listar:
  *   get:
  *     summary: Lista todos os usuários
@@ -132,6 +125,8 @@ router.get('/listar', usuarioController.listarUsuarios);
  *   get:
  *     summary: Obtém um usuário pelo ID
  *     tags: [Usuários]
+ *     security:
+ *       - BearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -153,6 +148,8 @@ router.get('/obter/:id', usuarioController.obterUsuarioPorId);
  *   delete:
  *     summary: Exclui um usuário pelo ID
  *     tags: [Usuários]
+ *     security:
+ *       - BearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -209,7 +206,7 @@ router.post('/admin/criar', isAdmin, usuarioController.criarNovoAdministrador);
  *     summary: Exclui um usuário não administrador pelo ID.
  *     tags: [Administradores]
  *     security:
- *       - BearerAuth: []  # Use isto se a autenticação for necessária
+ *       - BearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -229,7 +226,44 @@ router.post('/admin/criar', isAdmin, usuarioController.criarNovoAdministrador);
  */
 router.delete('/admin/excluir/:id', isAdmin, usuarioController.excluirUsuarioNaoAdmin);
 
-// Atualizar informações do usuário
+/**
+ * @swagger
+ *   /usuarios/atualizar/{id}:
+ *     put:
+ *       summary: Atualiza informações do usuário.
+ *       description: Atualiza informações do usuário com base no ID fornecido.
+ *       tags: [Usuários]
+ *       security:
+ *          - BearerAuth: []
+ *       parameters:
+ *         - in: path
+ *           name: id
+ *           required: true
+ *           description: ID do usuário a ser atualizado.
+ *           schema:
+ *             type: integer
+ *       requestBody:
+ *         required: true
+ *         description: Dados a serem atualizados.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 nome:
+ *                   type: string
+ *                 email:
+ *                   type: string
+ *                 senha:
+ *                   type: string
+ *       responses:
+ *         200:
+ *           description: Sucesso. Retorna uma mensagem de sucesso.
+ *         403:
+ *           description: Acesso não autorizado. Usuário não tem permissão para atualizar informações deste usuário.
+ *         500:
+ *           description: Erro interno do servidor. Falha ao processar a atualização de informações do usuário.
+ */
 router.put('/atualizar/:id', authenticateJWT, usuarioController.atualizarUsuario);
 
 module.exports = router;

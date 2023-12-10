@@ -1,7 +1,6 @@
 // controllers/usuarioController.js
 // Importa o serviço responsável pelas operações relacionadas a usuários
 const usuarioService = require('../services/usuarioService');
-const { Usuario } = require('../models');
 
 // Função assíncrona para cadastrar um novo usuário
 const cadastrarUsuario = async (req, res) => {

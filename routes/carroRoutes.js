@@ -21,6 +21,8 @@ router.use(authenticateJWT);
  *   post:
  *     summary: Cadastra um novo carro
  *     tags: [Carros]
+ *     security:
+ *       - BearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -85,6 +87,8 @@ router.get('/listar', carroController.listarCarros);
  *   get:
  *     summary: Obtém um carro pelo ID
  *     tags: [Carros]
+ *     security:
+ *       - BearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -106,6 +110,8 @@ router.get('/obter/:id', carroController.obterCarroPorId);
  *   delete:
  *     summary: Exclui um carro pelo ID
  *     tags: [Carros]
+ *     security:
+ *       - BearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -127,6 +133,8 @@ router.delete('/excluir/:id', carroController.excluirCarro);
  *   put:
  *     summary: Atualiza um carro pelo ID.
  *     tags: [Carros]
+ *     security:
+ *       - BearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -221,6 +229,5 @@ router.delete('/excluir/:id', carroController.excluirCarro);
  *                   example: Erro ao atualizar carro no serviço.
  */
 router.put('/atualizar/:id', carroController.atualizarCarro);
-
 
 module.exports = router;

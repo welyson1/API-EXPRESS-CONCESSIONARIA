@@ -13,7 +13,6 @@ const router = express.Router();
  *   description: Rotas relacionadas a marcas
  */
 
-
 // Middleware para autenticação JWT
 router.use(authenticateJWT);
 
@@ -23,6 +22,8 @@ router.use(authenticateJWT);
  *   post:
  *     summary: Cadastra uma nova marca
  *     tags: [Marcas]
+ *     security:
+ *       - BearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -78,6 +79,8 @@ router.get('/listar', marcaController.listarMarcas);
  *   get:
  *     summary: Obtém uma marca pelo ID
  *     tags: [Marcas]
+ *     security:
+ *       - BearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -99,6 +102,8 @@ router.get('/obter/:id', marcaController.obterMarcaPorId);
  *   delete:
  *     summary: Exclui uma marca pelo ID
  *     tags: [Marcas]
+ *     security:
+ *       - BearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -120,6 +125,8 @@ router.delete('/excluir/:id', marcaController.excluirMarca);
  *   put:
  *     summary: Atualiza uma marca pelo ID.
  *     tags: [Marcas]
+ *     security:
+ *       - BearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id

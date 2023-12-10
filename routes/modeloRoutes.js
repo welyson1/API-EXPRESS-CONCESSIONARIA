@@ -19,6 +19,8 @@ router.use(authenticateJWT);
  *   post:
  *     summary: Cadastrar um novo modelo de veículo
  *     tags: [Modelo]
+ *     security:
+ *       - BearerAuth: []
  *     parameters:
  *       - in: body
  *         name: modelo
@@ -77,6 +79,8 @@ router.get('/listar', modeloController.listarModelos);
  *   get:
  *     summary: Obter detalhes de um modelo de veículo por ID
  *     tags: [Modelo]
+ *     security:
+ *       - BearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -100,6 +104,8 @@ router.get('/obter/:id', modeloController.obterModeloPorId);
  *   put:
  *     summary: Atualizar um modelo de veículo por ID
  *     tags: [Modelo]
+ *     security:
+ *       - BearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -136,6 +142,8 @@ router.put('/atualizar/:id', modeloController.atualizarModelo);
  *   delete:
  *     summary: Excluir um modelo de veículo por ID
  *     tags: [Modelo]
+ *     security:
+ *       - BearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
