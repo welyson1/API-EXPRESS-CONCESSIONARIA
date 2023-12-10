@@ -50,9 +50,10 @@ Esta é uma API para gerenciar dados de uma concessionária, incluindo usuários
    ```
 
 6. Veja a documentação
-
-- `GET /docs`: Documentação de todas as rotas
-
+   ```
+   http://localhost:3000/docs
+   ```
+   
 ## Autenticação
 
 A autenticação é necessária para acessar alguns endpoints. Ao efetuar login, um token JWT é gerado e deve ser incluído no cabeçalho `Authorization` para autenticação.
