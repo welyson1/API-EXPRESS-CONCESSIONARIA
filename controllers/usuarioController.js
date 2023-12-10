@@ -88,6 +88,51 @@ const excluirUsuario = async (req, res) => {
   }
 };
 
+// Função assíncrona para criar um administrador padrão (pode ser chamada na inicialização do sistema)
+const criarAdministradorPadrao = async (req, res) => {
+  try {
+    // Chama o serviço para criar um administrador padrão
+    await usuarioService.criarAdministradorPadrao();
+
+    // Retorna uma mensagem indicando o sucesso na criação do administrador padrão
+    res.json({ message: 'Administrador padrão criado com sucesso' });
+  } catch (error) {
+    // Em caso de erro, retorna a mensagem de erro com status 500 (Internal Server Error)
+    res.status(500).json({ error: 'Erro ao criar administrador padrão' });
+  }
+};
+
+// Função assíncrona para criar um novo administrador
+const criarNovoAdministrador = async (req, res) => {
+  try {
+    // Extrai o nome, email e senha do corpo da requisição
+    const { nome, email, senha } = req.body;
+
+    // Chama o serviço para criar um novo administrador
+    const usuario = await usuarioService.criarAdministrador(nome, email, senha);
+
+    // Retorna o administrador criado com status 201 (Created)
+    res.status(201).json(usuario);
+  } catch (error) {
+    // Em caso de erro, retorna a mensagem de erro com status 400 (Bad Request)
+    res.status(400).json({ error: error.message });
+  }
+};
+
+// Função assíncrona para excluir um usuário não administrador
+const excluirUsuarioNaoAdmin = async (req, res) => {
+  try {
+    // Chama o serviço para excluir o usuário não administrador pelo ID fornecido na URL
+    await usuarioService.excluirUsuarioNaoAdmin(req.params.id);
+
+    // Retorna status 204 (No Content) indicando sucesso na exclusão
+    res.status(204).send();
+  } catch (error) {
+    // Em caso de erro, retorna a mensagem de erro com status 500 (Internal Server Error)
+    res.status(500).json({ error: 'Erro ao excluir usuário não administrador.' });
+  }
+};
+
 // Função assíncrona para atualizar informações do usuário
 const atualizarUsuario = async (req, res) => {
   try {
@@ -154,5 +199,8 @@ module.exports = {
   listarUsuarios,
   obterUsuarioPorId,
   excluirUsuario,
+  criarAdministradorPadrao, 
+  criarNovoAdministrador, 
+  excluirUsuarioNaoAdmin, 
   atualizarUsuario, 
 };

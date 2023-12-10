@@ -112,6 +112,64 @@ const excluirUsuario = async (id) => {
   }
 };
 
+// Função assíncrona para criar um usuário administrador padrão
+const criarAdministradorPadrao = async () => {
+  try {
+    // Verifica se já existe um administrador no banco de dados
+    const adminExists = await Usuario.findOne({ where: { isAdmin: true } });
+
+    // Se não existir, cria um administrador padrão
+    if (!adminExists) {
+      const hashedSenha = await bcrypt.hash('senhaAdmin', 10); // Coloque uma senha segura aqui
+      await Usuario.create({ nome: 'Admin', email: 'admin@example.com', senha: hashedSenha, isAdmin: true });
+    }
+  } catch (error) {
+    // Em caso de erro, loga o erro e lança uma exceção
+    console.error('Erro ao criar administrador padrão no serviço:', error);
+    throw new Error('Erro ao criar administrador padrão no serviço');
+  }
+};
+
+// Função assíncrona para cadastrar um novo administrador
+const criarAdministrador = async (nome, email, senha) => {
+  try {
+    // Hash da senha antes de salvar no banco de dados
+    const hashedSenha = await bcrypt.hash(senha, 10);
+    
+    // Cria um novo usuário administrador no banco de dados
+    const usuario = await Usuario.create({ nome, email, senha: hashedSenha, isAdmin: true });
+    return usuario;
+  } catch (error) {
+    // Em caso de erro, loga o erro e lança uma exceção
+    console.error('Erro ao criar novo administrador no serviço:', error);
+    throw new Error('Erro ao criar novo administrador no serviço');
+  }
+};
+
+// Função assíncrona para excluir um usuário não administrador
+const excluirUsuarioNaoAdmin = async (id) => {
+  try {
+    // Busca o usuário no banco de dados pelo ID fornecido
+    const usuario = await Usuario.findByPk(id);
+
+    // Verifica se o usuário foi encontrado
+    if (!usuario) {
+      throw new Error('Usuário não encontrado');
+    }
+
+    // Verifica se o usuário não é um administrador antes de excluir
+    if (!usuario.isAdmin) {
+      await usuario.destroy();
+    } else {
+      // Lança uma exceção se o usuário for um administrador
+      throw new Error('Administradores não podem ser excluídos por esta rota');
+    }
+  } catch (error) {
+    // Em caso de erro, loga o erro e lança uma exceção
+    console.error('Erro ao excluir usuário não administrador no serviço:', error);
+    throw new Error('Erro ao excluir usuário não administrador no serviço');
+  }
+};
 
 // Função para gerar um token de autenticação
 const generateToken = (userId) => {
@@ -178,6 +236,9 @@ module.exports = {
   listarUsuarios,
   obterUsuarioPorId,
   excluirUsuario,
+  criarAdministradorPadrao,
+  criarAdministrador,
+  excluirUsuarioNaoAdmin,
   generateToken,
   verifyToken,
   atualizarUsuario,

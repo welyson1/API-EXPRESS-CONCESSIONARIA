@@ -65,6 +65,19 @@ router.post('/login', usuarioController.autenticarUsuario);
  */
 router.post('/cadastrar', usuarioController.cadastrarUsuario);
 
+/**
+ * @swagger
+ * /usuarios/criar-administrador-padrao:
+ *   post:
+ *     summary: Cria um usuário administrador por padrão na inicialização do sistema.
+ *     tags: [Administradores]
+ *     responses:
+ *       201:
+ *         description: Usuário administrador criado com sucesso.
+ *       400:
+ *         description: Falha ao criar o administrador. Verifique os dados de entrada.
+ */
+router.post('/criar-administrador-padrao', usuarioController.criarAdministradorPadrao);
 
 // Middleware para autenticação JWT
 router.use(authenticateJWT);
@@ -155,6 +168,66 @@ router.get('/obter/:id', usuarioController.obterUsuarioPorId);
  */
 router.delete('/excluir/:id', usuarioController.excluirUsuario);
 
+/**
+ * @swagger
+ * /usuarios/admin/criar:
+ *   post:
+ *     summary: Cria um novo administrador.
+ *     tags: [Administradores]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - in: body
+ *         name: body
+ *         description: Dados do novo administrador
+ *         required: true
+ *         schema:
+ *           type: object
+ *           properties:
+ *             nome:
+ *               type: string
+ *             email:
+ *               type: string
+ *             senha:
+ *               type: string
+ *     responses:
+ *       201:
+ *         description: Administrador criado com sucesso
+ *       400:
+ *         description: Erro ao criar administrador. Verifique os dados de entrada.
+ *       401:
+ *         description: Não autorizado. Token de autenticação ausente ou inválido.
+ *       403:
+ *         description: Não autorizado. O usuário autenticado não tem permissões de administrador.
+ */
+router.post('/admin/criar', isAdmin, usuarioController.criarNovoAdministrador);
+
+/**
+ * @swagger
+ * /usuarios/admin/excluir/{id}:
+ *   delete:
+ *     summary: Exclui um usuário não administrador pelo ID.
+ *     tags: [Administradores]
+ *     security:
+ *       - BearerAuth: []  # Use isto se a autenticação for necessária
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID do usuário não administrador a ser excluído.
+ *         schema:
+ *           type: string
+ *     responses:
+ *       204:
+ *         description: Usuário excluído com sucesso.
+ *       400:
+ *         description: Falha ao excluir usuário. Verifique os dados de entrada.
+ *       401:
+ *         description: Não autorizado. Token de autenticação ausente ou inválido.
+ *       403:
+ *         description: Não autorizado. O usuário autenticado não tem permissões de administrador.
+ */
+router.delete('/admin/excluir/:id', isAdmin, usuarioController.excluirUsuarioNaoAdmin);
 
 // Atualizar informações do usuário
 router.put('/atualizar/:id', authenticateJWT, usuarioController.atualizarUsuario);
